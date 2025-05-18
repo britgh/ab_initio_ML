@@ -1,0 +1,6 @@
+# Executables
+*.exe
+*.out
+
+# IDEA config files
+*.idea
