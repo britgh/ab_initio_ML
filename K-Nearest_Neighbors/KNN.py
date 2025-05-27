@@ -48,18 +48,17 @@ for testcase in range(len(Y_testing)):
         # print(X_temp[feature])
 
     # MODEL TESTING-----
-    distances = processing.euclid_dist(X_temp, case)                            # euclidean dist. (train set + testcase)
-    order = distances.sort_values()[0:K].index                                  # closest K neighbors (pd series sort)
+    distances = processing.euclid_dist(X_temp, case)        # euclidean dist. (train set + testcase)
+    order = distances.sort_values()[0:K].index              # indicies of closest K neighbors (pd series sort!!)
+    print(order)
+    # print(distances.index)
+    # print(X_temp.index)
+    # print(Y_training.index)
     print(distances[order])
-
-    #print(order)
-
-    # order2=distances.argsort()[0:K]
-    # print(order2)
-    # print(distances[order2])
-    # order = np.argsort(distances)[0:K]                                          # closest K neighbors
-    # print(order)
-    # print(distances[order]) # only works for first testcase??
+    print(order)
+    print(Y_training.loc[order])
+    print(Y_training.loc[order].index)
+    #print(Y_training[order])
 
     # processing.mode(Y_testing[testcase])
 
