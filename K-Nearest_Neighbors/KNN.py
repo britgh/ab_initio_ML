@@ -30,6 +30,9 @@ for feature in X.columns:
     min_max.loc[feature] = [X_training[feature].min(), X_training[feature].max()]
 
 # normalizing according to each test case
+all_preds = pd.DataFrame({'pred':[], 'real':[]})
+predictions = np.empty(shape=len(Y_testing), dtype='U15')
+
 for testcase in range(len(Y_testing)):
     case = X_testing.iloc[testcase]
     X_temp = X_training.copy()
@@ -49,17 +52,20 @@ for testcase in range(len(Y_testing)):
 
     # MODEL TESTING-----
     distances = processing.euclid_dist(X_temp, case)        # euclidean dist. (train set + testcase)
-    order = distances.sort_values()[0:K].index              # indicies of closest K neighbors (pd series sort!!)
-    print(order)
-    # print(distances.index)
-    # print(X_temp.index)
-    # print(Y_training.index)
-    print(distances[order])
-    print(order)
-    print(Y_training.loc[order])
-    print(Y_training.loc[order].index)
-    #print(Y_training[order])
+    order = distances.sort_values()[0:K].index              # indices of closest K neighbors (pd series sort!!)
 
+    # print(Y_training.loc[order])
+    # print(np.array(Y_training.loc[order]))
+
+    predictions[testcase] = processing.mode(np.array(Y_training.loc[order]))    # class -> string, then store it
+    # print(predictions[testcase])
+    # print(Y_testing.iloc[testcase].get('class'))
+    # print(Y_testing.iloc[testcase].__class__)
+    all_preds.loc[testcase] = [predictions[testcase], Y_testing.iloc[testcase].get('class')]
+    print(all_preds)
+
+
+    # print("val: ",processing.mode(np.array(Y_training.loc[order])))
     # processing.mode(Y_testing[testcase])
 
     #print(Y_testing[order])
