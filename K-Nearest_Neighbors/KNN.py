@@ -22,38 +22,33 @@ X_training, X_testing, Y_training, Y_testing = train_test_split(X, Y, test_size 
 scores = np.empty(shape=len(X_testing))                 # track predictions: correct = 1, else 0
 K = 5                                                   # chosen number of neighbors
 
-# # NORMALIZING DATA-----
-# for feature in X.columns:
-#     for case in X_testing[feature]:
-#         # X_max = np.max(X[feature].max(), X_testing[feature])
-#         print(X[feature].max())
-#         print(X_testing[feature])
-#         # print(X_max)
-    # X[feature] = processing.normalize(X[feature], X[feature].max(), X[feature].min())
-    # print(X)
-
-
-# pandas dataframe to store training set's min-max vals
-min_max = pd.DataFrame({'min':[], 'max':[]})
+# NORMALIZING DATA-----
+min_max = pd.DataFrame({'min':[], 'max':[]})            # pandas dataframe to store training set's min-max vals
 
 for feature in X.columns:
     min_max.loc[feature] = [X_training[feature].min(), X_training[feature].max()]
 
-# iterating through each test case
-# for testcase in range(len(X_testing)):
-#     X_temp = X_training
-#
-#     # normalize data
-#     for feature in X.columns:
-#         print(max_X[feature])
-#         upper = max(max_X[feature], X_testing[feature][testcase])
-#         print(upper)
-#         # min_X = min (X_temp[feature].min)
+# normalizing according to each test case
+for testcase in range(len(Y_testing)):
+    case = X_testing.iloc[testcase]
+    X_temp = X_training.copy()
 
+    for feature in X.columns:
+        min_x = min_max.at[feature, 'min']                  # training data min/max
+        max_x = min_max.at[feature, 'max']
 
+        # print(min_x, max_x)
+        # print(case[feature])
 
-    # X_testing[testcase] = processing.normalize(X_testing[testcase], X_training[testcase])
+        min_x = processing.minimum(min_x, case[feature])    # min/max including testcase
+        max_x = processing.maximum(max_x, case[feature])
 
+        case[feature] = processing.normalize(case[feature], max_x, min_x)       # normalize test data
+        X_temp[feature] = processing.normalize(X_temp[feature], max_x, min_x)   # normalize training
+
+        # print(X_temp[feature])
+
+    # MODEL TESTING-----
 
 # max_trainData = max(X_training)
 #
