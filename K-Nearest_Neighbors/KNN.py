@@ -36,38 +36,18 @@ for testcase in range(len(Y_testing)):
     for feature in X.columns:
         min_x = min_max.at[feature, 'min']                  # training data min/max
         max_x = min_max.at[feature, 'max']
-
         # print(min_x, max_x)
         # print(case[feature])
 
         min_x = processing.minimum(min_x, case[feature])    # min/max including testcase
         max_x = processing.maximum(max_x, case[feature])
 
-        case[feature] = processing.normalize(case[feature], max_x, min_x)       # normalize test data
         X_temp[feature] = processing.normalize(X_temp[feature], max_x, min_x)   # normalize training
-
+        case[feature] = processing.normalize(case[feature], max_x, min_x)       # normalize test data
         # print(X_temp[feature])
 
     # MODEL TESTING-----
-
-# max_trainData = max(X_training)
-#
-#
-# processing.normalize()
-#
-#
-# # MODEL-----
-# for testcase in range(len(X_testing)):
-#
-#
-#     # TESTING MODEL-----
-#     distances = processing.euclid_dist(X_training, X_testing.iloc[testcase])
-#
-#     order = np.argsort(distances)[0:K]                  # indices of closest K training samples (ascending order)
-#
-#
-
-#
-#
-# for feature in X.columns:
-#     X[feature] = processing.normalize(X[feature], X[feature].max(), X[feature].min())
+    distances = processing.euclid_dist(X_temp, case)                            # euclidean dist. (train set + testcase)
+    order = np.argsort(distances)[0:K]                                        # closest K neighbors
+    print(order)
+    print(distances[order])
