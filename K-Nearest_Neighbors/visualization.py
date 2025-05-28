@@ -7,51 +7,46 @@ from matplotlib.lines import Line2D
 import numpy as np
 
 def plot (train_set, test_set, train_label, all) :
-    # print(all)
     graph = plt.figure()
     axes = graph.add_subplot(111, projection='3d')  # 3D graph for 3 features
 
     # Set labels for the axes
     axes.set_title("UCIML Iris Dataset KNN Prediction Results")
-    plt.figtext(0.5, 0.825, "britgh: Each icon is a data sample. \n Shape is its real classification. Color is test data prediction accuracy.",  ha="center", fontsize=10, color='darkblue')
     axes.set_xlabel('X: Sepal Length')
     axes.set_ylabel('Y: Petal Width')
     axes.set_zlabel('Z: Petal Length')
+    plt.figtext(0.5, 0.825, "britgh: Each icon is a data sample. \nShape is real classification. Color is testcase prediction accuracy.",  ha="center", fontsize=9, color='darkblue')
 
-    # encode classes, allow downcasting (string -> int)
+    # encode labels (IS=0, IVi=1, IVe=2); allow downcasting (string -> int)
     test_label = all.replace({'Iris-setosa': 0, 'Iris-virginica': 1, 'Iris-versicolor': 2}).infer_objects(copy=False)
     train_label = train_label.replace({'Iris-setosa': 0, 'Iris-virginica': 1, 'Iris-versicolor': 2}).infer_objects(copy=False)
-    # print(test_label)
 
-
-    # 1st legend: custom icons
+    # 1st legend: custom icons (real label, not predicted)
     icons = np.array(['o', 's', '^'])
+
     circle_icon = Line2D([0],[0], label='Iris-setosa', c='black', marker='o', markersize=10, linestyle='')
     square_icon = Line2D([0],[0], label='Iris-virginica', c='black', marker='s', markersize=10, linestyle='')
     triangle_icon = Line2D([0],[0], label='Iris-versicolor', c='black', marker='^', markersize=10, linestyle='')
+
     axes.add_artist(axes.legend(handles=[circle_icon, square_icon, triangle_icon], loc='lower left', bbox_to_anchor=(-0.2, 0.6), title='Class'))
 
-    # 2nd legend: custom colors
+    # 2nd legend: custom colors (results)
     colors = np.array(['r', 'g'])
+
     grey_guide = patches.Patch(color='gray', label='training data')
     green_guide = patches.Patch(color='green', label = 'true predict')
     red_guide = patches.Patch(color='red', label='false predict')
+
     plt.legend(handles=[grey_guide, green_guide, red_guide], loc='upper left', bbox_to_anchor=(-0.2, 0.6), title='Result')
 
-
-    # plot training data
-    # print(train_label)
+    #plot training data
     for row in range(len(train_set)):
-        # print(train_label.iloc[row].get('class'))
-        # print(train_set)
         axes.scatter(train_set.iloc[row, 0], train_set.iloc[row, 1], train_set.iloc[row, 2],
                      c='gray', marker=icons[train_label.iloc[row].get('class')], edgecolors='black')
 
     # plot testing data
     for row in range(len(test_set)):
-        # print(test_set)
-        # print(test_label)
         axes.scatter(test_set.iloc[row, 0], test_set.iloc[row, 1], test_set.iloc[row, 2],
-                     c=colors[test_label.iloc[row,2]], marker=icons[test_label.iloc[row,1]]) # markers reflect actual label (not pred)
+                     c=colors[test_label.iloc[row,2]], marker=icons[test_label.iloc[row,1]])
 
     plt.show()
