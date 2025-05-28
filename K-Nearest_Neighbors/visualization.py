@@ -12,6 +12,8 @@ def plot (train_set, test_set, train_label, all) :
     axes = graph.add_subplot(111, projection='3d')  # 3D graph for 3 features
 
     # Set labels for the axes
+    axes.set_title("UCIML Iris Dataset KNN Prediction Results")
+    plt.figtext(0.5, 0.825, "britgh: Each icon is a data sample. \n Shape is its real classification. Color is test data prediction accuracy.",  ha="center", fontsize=10, color='darkblue')
     axes.set_xlabel('X: Sepal Length')
     axes.set_ylabel('Y: Petal Width')
     axes.set_zlabel('Z: Petal Length')
@@ -24,9 +26,9 @@ def plot (train_set, test_set, train_label, all) :
 
     # 1st legend: custom icons
     icons = np.array(['o', 's', '^'])
-    circle_icon = Line2D([0],[0], label='Iris-setosa', c='black', marker='o')
-    square_icon = Line2D([0],[0], label='Iris-virginica', c='black', marker='s')
-    triangle_icon = Line2D([0],[0], label='Iris-versicolor', c='black', marker='^')
+    circle_icon = Line2D([0],[0], label='Iris-setosa', c='black', marker='o', markersize=10, linestyle='')
+    square_icon = Line2D([0],[0], label='Iris-virginica', c='black', marker='s', markersize=10, linestyle='')
+    triangle_icon = Line2D([0],[0], label='Iris-versicolor', c='black', marker='^', markersize=10, linestyle='')
     axes.add_artist(axes.legend(handles=[circle_icon, square_icon, triangle_icon], loc='lower left', bbox_to_anchor=(-0.2, 0.6), title='Class'))
 
     # 2nd legend: custom colors
@@ -43,7 +45,7 @@ def plot (train_set, test_set, train_label, all) :
         # print(train_label.iloc[row].get('class'))
         # print(train_set)
         axes.scatter(train_set.iloc[row, 0], train_set.iloc[row, 1], train_set.iloc[row, 2],
-                     c='gray', marker=icons[train_label.iloc[row].get('class')])
+                     c='gray', marker=icons[train_label.iloc[row].get('class')], edgecolors='black')
 
     # plot testing data
     for row in range(len(test_set)):
