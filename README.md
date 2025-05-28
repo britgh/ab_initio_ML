@@ -12,7 +12,7 @@ various machine learning models made from scratch
 
 ### Process
 + **Dataset**: UCIML Iris Dataset
-+ **Data Split**: used SKLearn Library (20% for testing)
++ **Data Split**: random 20% for testing (% changeable lol)
 + **Normalization**: Min-Max normalization with training set and current testcase
 +  **Testing**: Euclidean distances (ascending) from training set to testcase, selected mode class of K closest neighbors as prediction
 +  **Evaluation**: Calculated accuracy (correct predictions / total test cases) and created visualization for results
