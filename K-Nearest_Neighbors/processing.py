@@ -42,7 +42,7 @@ def accuracy(all_elem) :
     correct = 0
 
     for i in range(len(all_elem)) :
-        if all_elem.iloc[:, 2] == 1:   # pred = 1st col, real = 2nd, score = 3rd
+        if all_elem.iloc[i, 2] == 1:   # pred = 1st col, real = 2nd, score = 3rd
             correct += 1
 
     score = correct / len(all_elem)
