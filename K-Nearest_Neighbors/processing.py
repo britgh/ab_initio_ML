@@ -1,4 +1,6 @@
-# File to contain additional vector calculations
+# additional vector calculations
+# britgh last updated: 05.27.25
+
 import numpy as np
 
 # min-max normalization
@@ -29,19 +31,18 @@ def mode (items) :
             versicolor += 1
         elif item == "Iris-virginica":
             virginica += 1
-    # print(setosa, versicolor, virginica)
 
     # return name of max value, not actual value
     name = {setosa: "Iris-setosa", versicolor: "Iris-versicolor", virginica: "Iris-virginica"}
     return name.get(max(setosa, versicolor, virginica))
 
 
-# determining model accuracy (= correct preds / total test data) + one-hot score encoding
+# determining model accuracy (= correct preds / total test data)
 def accuracy(all_elem) :
     correct = 0
 
     for i in range(len(all_elem)) :
-        if all_elem.iloc[i, 2] == 1:   # pred = 1st col, real = 2nd, score = 3rd
+        if all_elem.iloc[:, 2] == 1:   # pred = 1st col, real = 2nd, score = 3rd
             correct += 1
 
     score = correct / len(all_elem)
