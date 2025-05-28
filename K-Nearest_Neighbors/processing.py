@@ -29,11 +29,20 @@ def mode (items) :
             versicolor += 1
         elif item == "Iris-virginica":
             virginica += 1
+    # print(setosa, versicolor, virginica)
 
-    print(setosa, versicolor, virginica)
     # return name of max value, not actual value
     name = {setosa: "Iris-setosa", versicolor: "Iris-versicolor", virginica: "Iris-virginica"}
     return name.get(max(setosa, versicolor, virginica))
 
 
-# def accuracy(training, testing) :
+# determining model accuracy (= correct preds / total test data) + one-hot score encoding
+def accuracy(all_elem) :
+    correct = 0
+
+    for i in range(len(all_elem)) :
+        if all_elem.iloc[i, 2] == 1:   # pred = 1st col, real = 2nd, score = 3rd
+            correct += 1
+
+    score = correct / len(all_elem)
+    print("Accuracy:", score * 100, "%")
