@@ -3,7 +3,7 @@
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from matplotlib.lines import Lines2D
+from matplotlib.lines import Line2D
 import numpy as np
 
 def plot (train_set, test_set, train_label, all) :
@@ -12,28 +12,30 @@ def plot (train_set, test_set, train_label, all) :
     axes = graph.add_subplot(111, projection='3d')  # 3D graph for 3 features
 
     # Set labels for the axes
-    axes.set_xlabel('X Axis: Sepal Length')
-    axes.set_ylabel('Y Axis: Petal Width')
-    axes.set_zlabel('Z Axis: Petal Length')
+    axes.set_xlabel('X: Sepal Length')
+    axes.set_ylabel('Y: Petal Width')
+    axes.set_zlabel('Z: Petal Length')
 
     # encode classes, allow downcasting (string -> int)
     test_label = all.replace({'Iris-setosa': 0, 'Iris-virginica': 1, 'Iris-versicolor': 2}).infer_objects(copy=False)
     train_label = train_label.replace({'Iris-setosa': 0, 'Iris-virginica': 1, 'Iris-versicolor': 2}).infer_objects(copy=False)
     # print(test_label)
 
-    # custom legend
+
+    # 1st legend: custom icons
+    icons = np.array(['o', 's', '^'])
+    circle_icon = Line2D([0],[0], label='Iris-setosa', c='black', marker='o')
+    square_icon = Line2D([0],[0], label='Iris-virginica', c='black', marker='s')
+    triangle_icon = Line2D([0],[0], label='Iris-versicolor', c='black', marker='^')
+    axes.add_artist(axes.legend(handles=[circle_icon, square_icon, triangle_icon], loc='lower left', bbox_to_anchor=(-0.2, 0.6), title='Class'))
+
+    # 2nd legend: custom colors
     colors = np.array(['r', 'g'])
     grey_guide = patches.Patch(color='gray', label='training data')
     green_guide = patches.Patch(color='green', label = 'true predict')
     red_guide = patches.Patch(color='red', label='false predict')
+    plt.legend(handles=[grey_guide, green_guide, red_guide], loc='upper left', bbox_to_anchor=(-0.2, 0.6), title='Result')
 
-    # custom icons
-    icons = np.array(['o', 's', '^'])
-    circle_icon = Lines2D([0,0], label='Iris-setosa', c='black', marker='o')
-    square_icon = Lines2D([0,0], label='Iris-virginica', c='black', marker='s')
-    triangle_icon = Lines2D([0,0], label='Iris-versicolor', c='black', marker='^')
-
-    plt.legend(handles=[grey_guide, green_guide, red_guide, circle_icon, square_icon, triangle_icon])
 
     # plot training data
     # print(train_label)
