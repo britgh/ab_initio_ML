@@ -2,6 +2,7 @@
 # britgh last updated: 05.27.25
 
 import processing
+import visualization
 import numpy as np
 import pandas as pd
 from ucimlrepo import fetch_ucirepo                     # import iris dataset (given by UCIML)
@@ -65,8 +66,9 @@ for testcase in range(len(Y_testing)):
         all_preds.loc[testcase] = [predictions[testcase], Y_testing.iloc[testcase].get('class'), 1]
     else:
         # print("not match")
+        print("MISS (case", testcase,")! PREDICT:", predictions[testcase], "ACTUAL:", Y_testing.iloc[testcase].get('class'))
+        print(X_testing.iloc[testcase])
         all_preds.loc[testcase] = [predictions[testcase], Y_testing.iloc[testcase].get('class'), 0]
 
-# print(all_preds)
-# print(all_preds.iloc[:, 2])
 processing.accuracy(all_preds)
+visualization.plot(X_training, X_testing, Y_training, all_preds)                                     # plots all training + testing data (miss=red, hit=green; shape=class)
