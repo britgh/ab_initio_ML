@@ -30,7 +30,7 @@ for feature in X.columns:
     min_max.loc[feature] = [X_training[feature].min(), X_training[feature].max()]
 
 # normalizing according to each test case
-all_preds = pd.DataFrame({'pred':[], 'real':[]})
+all_preds = pd.DataFrame({'pred':[], 'real':[], 'score':[]})
 predictions = np.empty(shape=len(Y_testing), dtype='U15')
 
 for testcase in range(len(Y_testing)):
@@ -57,15 +57,16 @@ for testcase in range(len(Y_testing)):
     # print(Y_training.loc[order])
     # print(np.array(Y_training.loc[order]))
 
-    predictions[testcase] = processing.mode(np.array(Y_training.loc[order]))    # class -> string, then store it
-    # print(predictions[testcase])
-    # print(Y_testing.iloc[testcase].get('class'))
-    # print(Y_testing.iloc[testcase].__class__)
-    all_preds.loc[testcase] = [predictions[testcase], Y_testing.iloc[testcase].get('class')]
-    print(all_preds)
+    predictions[testcase] = processing.mode(np.array(Y_training.loc[order]))    # class -> string
 
+    # PERFORMANCE EVALUATION-----
+    if predictions[testcase] == Y_testing.iloc[testcase].get('class') :
+        # print("match")
+        all_preds.loc[testcase] = [predictions[testcase], Y_testing.iloc[testcase].get('class'), 1]
+    else:
+        # print("not match")
+        all_preds.loc[testcase] = [predictions[testcase], Y_testing.iloc[testcase].get('class'), 0]
 
-    # print("val: ",processing.mode(np.array(Y_training.loc[order])))
-    # processing.mode(Y_testing[testcase])
-
-    #print(Y_testing[order])
+# print(all_preds)
+# print(all_preds.iloc[:, 2])
+processing.accuracy(all_preds)
