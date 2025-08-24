@@ -2,7 +2,6 @@
 # britgh last updated: 08.23.25
 
 import numpy as np
-import pandas as pd
 
 # returns vector of labels for all given input cases (Y' = weights (dot prod) input + bias)
 def predict_y(given_x, weights, bias) :
@@ -38,22 +37,3 @@ def partial_deriv(given_x, weights, bias, real_y) :
     b_deriv /= difference.shape[0]
 
     return w_deriv, b_deriv
-
-# normalize differing values
-def z_score(arr, is_train, group, col):
-    x_val = group.iloc[:, col]  # group being normalized
-
-    if is_train :               # store sample mean + sd of training x vals
-        count = x_val.shape[0]
-
-        x_mean = np.sum(x_val) / count
-        arr[0, col] = x_mean
-
-        x_sd = np.sqrt(np.sum(np.square(x_val - x_mean)) / count - 1)
-        arr[1, col] = x_sd
-
-    else :                      # use mean + sd based on training data
-        x_mean = arr[0, col]
-        x_sd = arr[1, col]
-
-    return (x_val - x_mean) / x_sd
