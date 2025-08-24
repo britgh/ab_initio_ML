@@ -20,19 +20,22 @@ def mse (given_x, weights, bias, real_y) :
 
     predict = predict_y(given_x, weights, bias)
 
-    return (np.sum(np.square(real_y - predict), axis=0)) / cases
+    return (np.sum(np.square(real_y - predict), axis=0)).values / cases
 
 # returns partial derivatives w.r.t weights + bias
 def partial_deriv(given_x, weights, bias, real_y) :
-    cases = given_x.shape[0]
-
-    # features = given_x.shape[1]
-    # w_deriv = np.zeros(features)        # set default vals
-    # b_deriv = 0
+    w_deriv = np.zeros(given_x.shape[1])        # set default vals
+    b_deriv = 0
 
     # partial derivatives w.r.t weights + bias
-    w_deriv = np.sum((predict_y(given_x, weights, bias) - real_y).values * given_x * 2, axis=1) / cases
-    b_deriv = np.sum((predict_y(given_x, weights, bias) - real_y).values * 2, axis=1) / cases
+    difference = (predict_y(given_x, weights, bias) - real_y).values
+
+    for row in range(difference.shape[0]):
+        b_deriv += difference[row]
+        w_deriv += (difference[row] * given_x.iloc[row]).values
+
+    w_deriv /= difference.shape[0]
+    b_deriv /= difference.shape[0]
 
     return w_deriv, b_deriv
 
