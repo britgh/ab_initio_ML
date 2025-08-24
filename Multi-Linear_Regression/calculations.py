@@ -1,5 +1,5 @@
 # Functions for adapting line of best fit
-# britgh last updated: 08.23.25
+# britgh last updated: 08.24.25
 
 import numpy as np
 
@@ -23,17 +23,30 @@ def mse (given_x, weights, bias, real_y) :
 
 # returns partial derivatives w.r.t weights + bias
 def partial_deriv(given_x, weights, bias, real_y) :
-    w_deriv = np.zeros(given_x.shape[1])        # set default vals
+    w_deriv = np.zeros(given_x.shape[1])
     b_deriv = 0
 
-    # partial derivatives w.r.t weights + bias
     difference = (predict_y(given_x, weights, bias) - real_y).values
 
     for row in range(difference.shape[0]):
-        b_deriv += difference[row]
-        w_deriv += (difference[row] * given_x.iloc[row]).values
+        b_deriv += difference[row] * 2
+        w_deriv += (difference[row] * given_x.iloc[row]).values * 2
 
     w_deriv /= difference.shape[0]
     b_deriv /= difference.shape[0]
 
     return w_deriv, b_deriv
+
+# gradient descent optimization algo to reduce MSE
+def gradient_descent (given_x, real_y, weights, bias=0, rounds=500, learning_rate=0.001, updates=50):
+
+    for phase in range(rounds):
+        w_deriv, b_deriv = partial_deriv(given_x, weights, bias, real_y)
+
+        weights = weights - learning_rate * w_deriv
+        bias = bias - learning_rate * b_deriv
+
+        if phase % updates == 0:
+            print(f"Iteration {phase}: \tCost: {mse(given_x, weights, bias, real_y)}, \tWeights: {weights}, \tBias: {bias}")
+
+    return bias, weights

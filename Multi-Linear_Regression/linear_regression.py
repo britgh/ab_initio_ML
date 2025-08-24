@@ -1,5 +1,5 @@
 # Multi-Linear Regression Machine Learning Model
-# britgh last updated: 08.23.25
+# britgh last updated: 08.24.25
 
 import calculations
 import correlation
@@ -43,37 +43,19 @@ for train_index, test_index in KFold(n_splits=10).split(X):             # iterat
         X_testing.iloc[:, col] = (x_test_val - x_mean) / x_sd
 
     # MODEL TRAINING---
-    learning_rate = 0.001                                               # default stuff
+    print(f"\nFold {iteration}: Training Multi-Linear Regression Model")
+
     weights = np.zeros(X_training.shape[1])
-    bias = 0
+    TEST_bias, TEST_weights = calculations.gradient_descent(X_training, Y_training, weights, rounds=501, learning_rate=0.01, updates=100)
 
-    print("\nBefore GD:", calculations.mse(X_training, weights, bias, Y_training))
-    w_deriv, b_deriv = calculations.partial_deriv(X_training, weights, bias, Y_training)
+    print(f"Bias for Testing: {TEST_bias};\t Weights for Testing: {TEST_weights}\n")
 
-    print("W deriv:", w_deriv)
-    print("B deriv:", b_deriv)
-
-    w_new = weights - learning_rate * w_deriv
-    b_new = bias - learning_rate * b_deriv
-
-    print("new W:", w_new)
-    print("new B:", b_new)
-
-    print("After GD:", calculations.mse(X_training, w_new, b_new, Y_training))
+    # MODEL TESTING---
 
 
 
 
-
-    # do the zscore thing
-
-
-    # MODEL TESTING--- find predicted y according to line
-
-
-
-
-
+    iteration += 1
 
 
 
