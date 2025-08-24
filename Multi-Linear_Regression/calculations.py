@@ -1,26 +1,40 @@
 # Functions for adapting line of best fit
-# britgh last updated: 08.20.25
+# britgh last updated: 08.23.25
 
 import numpy as np
+import pandas as pd
+
+# returns vector of labels for all given input cases (Y' = weights (dot prod) input + bias)
+def predict_y(given_x, weights, bias) :
+    cases = given_x.shape[0]
+    predict = np.zeros((cases, 1))
+
+    for case in range(cases) :
+        predict[case] = np.dot(weights, given_x.iloc[case]) + bias
+
+    return predict
 
 # mean square error (avg sqrd diff in y vals)
-def mse (real, predict) :
-    num = real.shape[0]
-    return (np.sum(np.square(real - predict), axis=1)) / num
+def mse (given_x, weights, bias, real_y) :
+    cases = given_x.shape[0]
 
-# root mean square error (sqrt of avg sqrd diff in y vals)
-def rmse (real, predict) :
-    return np.sqrt(mse(real, predict))
+    predict = predict_y(given_x, weights, bias)
 
-# partial derivative of mse w.r.t. m (how mse changes w/ all vars const except m)
-def m_deriv(given_x, real, predict) :
-    num = - (2 / real.shape[0])
-    return num * np.sum(given_x * (real - predict), axis=1)
+    return (np.sum(np.square(real_y - predict), axis=0)) / cases
 
-# partial derivative of mse w.r.t. b
-def b_deriv(real, predict) :
-    num = - (2 / real.shape[0])
-    return num * np.sum(real - predict, axis=1)
+# returns partial derivatives w.r.t weights + bias
+def partial_deriv(given_x, weights, bias, real_y) :
+    cases = given_x.shape[0]
+
+    # features = given_x.shape[1]
+    # w_deriv = np.zeros(features)        # set default vals
+    # b_deriv = 0
+
+    # partial derivatives w.r.t weights + bias
+    w_deriv = np.sum((predict_y(given_x, weights, bias) - real_y).values * given_x * 2, axis=1) / cases
+    b_deriv = np.sum((predict_y(given_x, weights, bias) - real_y).values * 2, axis=1) / cases
+
+    return w_deriv, b_deriv
 
 # normalize differing values
 def z_score(arr, is_train, group, col):
