@@ -39,14 +39,25 @@ def partial_deriv(given_x, weights, bias, real_y) :
 
 # gradient descent optimization algo to reduce MSE
 def gradient_descent (given_x, real_y, weights, bias=0, rounds=500, learning_rate=0.001, updates=50):
+    cost = np.array(rounds)
 
     for phase in range(rounds):
         w_deriv, b_deriv = partial_deriv(given_x, weights, bias, real_y)
 
         weights = weights - learning_rate * w_deriv
         bias = bias - learning_rate * b_deriv
+        # cost[phase] = mse(given_x, weights, bias, real_y)
 
         if phase % updates == 0:
             print(f"Iteration {phase}: \tCost: {mse(given_x, weights, bias, real_y)}, \tWeights: {weights}, \tBias: {bias}")
 
-    return bias, weights
+    return cost, bias, weights
+
+# R2 Score to measure accuracy of model
+def R2_score (actual, predicted):
+    RSS = np.sum(np.square(actual - predicted), axis=0)
+
+    mean = np.mean(actual)
+    TSS = np.sum(np.square(actual - mean), axis=0)
+
+    return (1 - (RSS / TSS)).values

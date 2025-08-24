@@ -1,35 +1,30 @@
 # Multi-Linear Regression Machine Learning Model
 # britgh last updated: 08.24.25
+# future note: prevent multi collinearity: if indep var is predicted by other vars w/ linear reg -> remove var
 
 import calculations
 import correlation
+import visualization
 import numpy as np
-import pandas as pd
-from ucimlrepo import fetch_ucirepo                         # MPG dataset by UCIML
-from sklearn.model_selection import KFold                   # help implement K-Fold cross-validation
-import matplotlib.pyplot as plt
+from ucimlrepo import fetch_ucirepo                                     # MPG dataset by UCIML
+from sklearn.model_selection import KFold                               # help implement K-Fold cross-validation
 
 # DATASET---
 auto_mpg = fetch_ucirepo(id=9)
-X = auto_mpg.data.features                  # features (car_name not included)
-Y = auto_mpg.data.targets                   # labels (MPG)
+X = auto_mpg.data.features                                              # features (car_name not included)
+Y = auto_mpg.data.targets                                               # labels (MPG)
 
 # PREPROCESSING---
-dropping = correlation.dropping(X, Y)       # least correlated + categorical features removed w/ pcc
+dropping = correlation.dropping(X, Y)                                   # least correlated + categorical removed w/ pcc
 X = X.drop(dropping, axis=1)
 X = X.astype(np.float64)
-# print(X)
-
-# prevent multi collinearity: if an independent var (col) can be predicted
-# accurately by other vars using linear regression, remove current var
-    # use tolerance and VIF to measure
 
 folds = 10
 iteration = 0
-results = np.empty((folds,X.shape[1] + 2))      #  num of folds (rows); features + RMSEs (cols)
+# results = np.empty((folds,X.shape[1] + 2))                              #  num of folds (rows); features + RMSEs (cols)
 
 for train_index, test_index in KFold(n_splits=10).split(X):             # iterating through folds
-    X_training, X_testing = X.iloc[train_index], X.iloc[test_index]     # indices
+    X_training, X_testing = X.iloc[train_index], X.iloc[test_index]
     Y_training, Y_testing = Y.iloc[train_index], Y.iloc[test_index]
 
     for col in range(X_training.shape[1]):
@@ -46,14 +41,18 @@ for train_index, test_index in KFold(n_splits=10).split(X):             # iterat
     print(f"\nFold {iteration}: Training Multi-Linear Regression Model")
 
     weights = np.zeros(X_training.shape[1])
-    TEST_bias, TEST_weights = calculations.gradient_descent(X_training, Y_training, weights, rounds=501, learning_rate=0.01, updates=100)
+    turns = 2000
+    TEST_cost, TEST_bias, TEST_weights = calculations.gradient_descent(X_training, Y_training, weights, rounds=turns, updates=100)
 
     print(f"Bias for Testing: {TEST_bias};\t Weights for Testing: {TEST_weights}\n")
 
     # MODEL TESTING---
+    test_results = calculations.predict_y(X_testing, TEST_weights, TEST_bias)
+    # print(test_results)
+    # print(Y_testing)
+    print(f"R^2 Score Results: {calculations.R2_score(Y_testing, test_results)}\n")
 
-
-
+    visualization.performance(test_results, Y_testing)
 
     iteration += 1
 
