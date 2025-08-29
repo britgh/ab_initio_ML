@@ -19,9 +19,10 @@ building various machine learning models from 'scratch' (NumPy + pandas)
 +  **Evaluation**: Calculated accuracy (correct predictions / total test cases) and created visualization for results
 
 ### Sample
-<img src="https://github.com/britgh/ab_initio_ML/blob/main/K-Nearest_Neighbors/sample_visual.png" width="350" />
-<br>
-<img src="https://github.com/britgh/ab_initio_ML/blob/main/K-Nearest_Neighbors/sample_output.png" width="350" />
+<p align="center" width="100%">
+<img src="https://github.com/britgh/ab_initio_ML/blob/main/K-Nearest_Neighbors/sample_visual.png" width="75%" />
+<img src="https://github.com/britgh/ab_initio_ML/blob/main/K-Nearest_Neighbors/sample_output.png" width="75%" />
+</p>
 
 ---
 ## *Multi-Linear Regression (MLR)*
@@ -44,10 +45,14 @@ building various machine learning models from 'scratch' (NumPy + pandas)
 +  **Evaluation**: Calculated R2 score (= 1/(RSS-TSS)) to determine accuracy and created data visualization plotting predicted v. true scores
 
 ### Sample
-<img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/sample_fold_result.png" width="350" />
+<p align="center" width="100%">
+<img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/correlation_visual.png" width="75%" />
+<img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/PCC_all.png" width="75%" />
 <br>
-<img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/sample_fold_result.png" width="350" />
+<img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/sample_fold_result.png" width="75%" />
+<img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/MLR_Fold0.png" width="75%" />
+</p>
 
 ---
 ## *Neural Network*
-in-progress :-)
+> **britgh:** in-progress :-)
