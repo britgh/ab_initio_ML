@@ -48,8 +48,10 @@ building various machine learning models from 'scratch' (NumPy + pandas)
 <p align="center" width="100%">
 <img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/correlation_visual.png" width="75%" />
 <img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/PCC_all.png" width="75%" />
+</p>
 
 ### Sample Fold Output
+<p align="center" width="100%">
 <img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/sample_fold_result.png" width="75%" />
 <img src="https://github.com/britgh/ab_initio_ML/blob/main/Multi-Linear_Regression/MLR_Fold0.png" width="75%" />
 </p>
